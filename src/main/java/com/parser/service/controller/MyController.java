@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -84,13 +85,21 @@ public class MyController {
     }
 
     @GetMapping("/by_date/date={date}")
-    List<Report> getReportsByDate(@PathVariable int date) {
+    List<Report> getReportsByDate(@PathVariable Date date) {
         return reportService.getReportsByDate(date);
     }
 
     @GetMapping("/by_article_and_date/article={article}&date={date}")
-    List<Report> getReportsByArticleAndDate(@PathVariable int article, @PathVariable int date) {
+    List<Report> getReportsByArticleAndDate(@PathVariable int article, @PathVariable Date date) {
         return reportService.getReportsByArticleAndDate(article, date);
+    }
+    @GetMapping("/between_dates/date_start={dateStart}&date_end={dateEnd}")
+    List<Report> getReportsBetweenDates(@PathVariable Date dateStart, @PathVariable Date dateEnd) {
+        return reportService.getReportsBetweenDates(dateStart, dateEnd);
+    }
+    @GetMapping("/by_article_and_between_dates/article={article}&date_start={dateStart}&date_end={dateEnd}")
+    List<Report> getReportsByArticleAndBetweenDates(@PathVariable int article, @PathVariable Date dateStart, @PathVariable Date dateEnd) {
+        return reportService.getReportsByArticleAndBetweenDates(article, dateStart, dateEnd);
     }
 
 

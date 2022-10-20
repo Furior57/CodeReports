@@ -1,6 +1,7 @@
 package com.parser.service.entity;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "reports")
@@ -22,13 +23,13 @@ public class Report {
     @Column
     int status5;
     @Column
-    int date;
+    Date date;
 
 
     public Report() {
     }
 
-    public Report(long id,String reportName, int article, int status1, int status2, int status3, int status5, int date) {
+    public Report(long id, String reportName, int article, int status1, int status2, int status3, int status5, Date date) {
         this.id = id;
         this.reportName = reportName;
         this.article = article;
@@ -40,7 +41,7 @@ public class Report {
     }
 
 
-    public Report(String reportName, int article, int status1, int status2, int status3, int status5, int date) {
+    public Report(String reportName, int article, int status1, int status2, int status3, int status5, Date date) {
         this.reportName = reportName;
         this.article = article;
         this.status1 = status1;
@@ -107,11 +108,11 @@ public class Report {
         this.status5 = status5;
     }
 
-    public int getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(int date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

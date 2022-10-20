@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,7 +41,11 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public void parseAndSaveReports() {
         ReportHandler handler = new ReportHandler();
-        handler.reportHandle();
+        try {
+            handler.reportHandle();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -49,12 +54,22 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public List<Report> getReportsByDate(int date) {
+    public List<Report> getReportsByDate(Date date) {
         return repository.findAllByDate(date);
     }
 
     @Override
-    public List<Report> getReportsByArticleAndDate(int article, int date) {
+    public List<Report> getReportsByArticleAndDate(int article, Date date) {
         return repository.findAllByArticleAndDate(article, date);
+    }
+
+    @Override
+    public List<Report> getReportsBetweenDates(Date startDate, Date endDate) {
+        return repository.findAllByDateBetween(startDate, endDate);
+    }
+
+    @Override
+    public List<Report> getReportsByArticleAndBetweenDates(int article, Date startDate, Date endDate) {
+        return getReportsByArticleAndBetweenDates(article, startDate, endDate);
     }
 }
