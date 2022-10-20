@@ -1,9 +1,8 @@
 package com.parser.service.services_impl;
 
 
-import com.parser.exceptions.AccessDeniedException;
 import com.parser.exceptions.InvalidFormatFileException;
-import com.parser.exceptions.NotFoundFileException;
+import com.parser.exceptions.ExceptionsHandler;
 import com.parser.service.services.DetailService;
 import com.parser.service.repositories.DetailRepository;
 import com.parser.service.entity.Detail;
@@ -20,8 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -96,14 +93,7 @@ public class DetailServiceImpl implements DetailService {
             }
 
         } catch (Exception e) {
-            if (e.getClass() == FileNotFoundException.class && e.getMessage().contains("Отказано в доступе")) {
-                logger.error("Отказано в доступе к файлу.");
-                throw new AccessDeniedException("Доступ к файлу \"" +file.getAbsoluteFile()+ "\" запрещен.");
-            }
-            if (e.getClass() == FileNotFoundException.class && e.getMessage().contains("Не удается найти указанный файл")) {
-                logger.error("Файл \"" + file.getAbsoluteFile() + "\" не найден.");
-                throw new NotFoundFileException("Файл \"" + file.getAbsoluteFile() + "\" не найден.");
-            }
+            ExceptionsHandler.fileExceptionHandler(file, e, logger);
             if (e.getClass() == IndexOutOfBoundsException.class) {
                 logger.error("Файл \"" + file.getAbsoluteFile() + "\" содержит неверный формат данных");
                 throw new InvalidFormatFileException("Файл \"" + file.getAbsoluteFile() + "\" содержит неверный формат данных");

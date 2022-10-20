@@ -20,9 +20,9 @@ public class Detail {
     @Column
     String tnved;
 
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "detail_id")
-//    List<Report> reports;
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "article")
+    List<Report> reports;
 
     public Detail() {
     }

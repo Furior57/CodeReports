@@ -1,5 +1,6 @@
 package com.parser.service.services_impl;
 
+import com.parser.json_handler.ReportHandler;
 import com.parser.service.services.ReportService;
 import com.parser.service.entity.Report;
 import com.parser.service.repositories.ReportRepository;
@@ -38,7 +39,8 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public void parseAndSaveReports() {
-
+        ReportHandler handler = new ReportHandler();
+        handler.reportHandle();
     }
 
     @Override
