@@ -1,5 +1,6 @@
 package com.parser.service.controller;
 
+import com.parser.exceptions.AccessDeniedException;
 import com.parser.service.entity.Report;
 import com.parser.service.services.DetailService;
 import com.parser.service.services.ReportService;
@@ -7,6 +8,7 @@ import com.parser.service.entity.Detail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +48,7 @@ public class MyController {
     }
 
     @GetMapping("/save_article")
-    void parseAndSaveArticle() {
+    void parseAndSaveArticle() throws Exception {
         detailService.parseAndSaveArticle();
     }
 

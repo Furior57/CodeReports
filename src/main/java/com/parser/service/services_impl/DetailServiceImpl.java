@@ -1,6 +1,9 @@
 package com.parser.service.services_impl;
 
 
+import com.parser.exceptions.AccessDeniedException;
+import com.parser.exceptions.InvalidFormatFileException;
+import com.parser.exceptions.NotFoundFileException;
 import com.parser.service.services.DetailService;
 import com.parser.service.repositories.DetailRepository;
 import com.parser.service.entity.Detail;
@@ -8,7 +11,8 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
-import org.aspectj.weaver.Iterators;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -16,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
@@ -24,6 +29,8 @@ import java.util.*;
 public class DetailServiceImpl implements DetailService {
     @Autowired
     DetailRepository repository;
+
+    private final Logger logger = LoggerFactory.getLogger(DetailServiceImpl.class);
 
     @Override
     public List<Detail> getAllDetails() {
@@ -52,7 +59,8 @@ public class DetailServiceImpl implements DetailService {
 
     @Override
     @Transactional
-    public HttpStatus parseAndSaveArticle() {
+    public HttpStatus parseAndSaveArticle() throws Exception{
+        logger.info("Запуск обновления номенклатурных позиций.");
         File file = new File("D:\\1\\articles.xls");
         try (HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(file))) {
             HSSFSheet sheet = workbook.getSheetAt(0);
@@ -85,15 +93,23 @@ public class DetailServiceImpl implements DetailService {
                 }
 
 
-
-
             }
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            if (e.getClass() == FileNotFoundException.class && e.getMessage().contains("Отказано в доступе")) {
+                logger.error("Отказано в доступе к файлу.");
+                throw new AccessDeniedException("Доступ к файлу \"" +file.getAbsoluteFile()+ "\" запрещен.");
+            }
+            if (e.getClass() == FileNotFoundException.class && e.getMessage().contains("Не удается найти указанный файл")) {
+                logger.error("Файл \"" + file.getAbsoluteFile() + "\" не найден.");
+                throw new NotFoundFileException("Файл \"" + file.getAbsoluteFile() + "\" не найден.");
+            }
+            if (e.getClass() == IndexOutOfBoundsException.class) {
+                logger.error("Файл \"" + file.getAbsoluteFile() + "\" содержит неверный формат данных");
+                throw new InvalidFormatFileException("Файл \"" + file.getAbsoluteFile() + "\" содержит неверный формат данных");
+            }
         }
-
-
+        logger.info("Обновление номенклатурных позиций успешно завершено.");
         return HttpStatus.OK;
     }
 }

@@ -1,8 +1,10 @@
 package com.parser.service.services;
 
+import com.parser.exceptions.AccessDeniedException;
 import com.parser.service.entity.Detail;
 import org.springframework.http.HttpStatus;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +19,7 @@ public interface DetailService {
 
     Detail getDetailByArticle(int article);
 
-    HttpStatus parseAndSaveArticle();
+    HttpStatus parseAndSaveArticle() throws IOException, AccessDeniedException, Exception;
 
 
 }
