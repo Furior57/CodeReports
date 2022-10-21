@@ -8,5 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DetailRepository extends JpaRepository<Detail, Integer> {
 
-    Detail findByArticle(int article);
+    Detail findByArticle(String article);
+
+    Detail findByGtin(String gtin);
 }

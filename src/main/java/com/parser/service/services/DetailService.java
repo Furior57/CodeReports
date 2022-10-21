@@ -17,9 +17,9 @@ public interface DetailService {
 
     void deleteDetail(int id);
 
-    Detail getDetailByArticle(int article);
+    Detail getDetailByArticle(String article);
 
-    HttpStatus parseAndSaveArticle() throws IOException, AccessDeniedException, Exception;
+    void parseAndSaveArticle() throws Exception;
 
 
 }

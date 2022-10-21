@@ -49,7 +49,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public List<Report> getReportsByArticle(int article) {
+    public List<Report> getReportsByArticle(String article) {
         return repository.findAllByArticle(article);
     }
 
@@ -59,7 +59,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public List<Report> getReportsByArticleAndDate(int article, Date date) {
+    public List<Report> getReportsByArticleAndDate(String article, Date date) {
         return repository.findAllByArticleAndDate(article, date);
     }
 
@@ -69,7 +69,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public List<Report> getReportsByArticleAndBetweenDates(int article, Date startDate, Date endDate) {
+    public List<Report> getReportsByArticleAndBetweenDates(String article, Date startDate, Date endDate) {
         return getReportsByArticleAndBetweenDates(article, startDate, endDate);
     }
 }

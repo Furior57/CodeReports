@@ -1,6 +1,5 @@
 package com.parser.service.controller;
 
-import com.parser.exceptions.AccessDeniedException;
 import com.parser.service.entity.Report;
 import com.parser.service.services.DetailService;
 import com.parser.service.services.ReportService;
@@ -8,7 +7,6 @@ import com.parser.service.entity.Detail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -44,7 +42,7 @@ public class MyController {
     }
 
     @GetMapping("/getByArticle/{article}")
-    Detail getDetailByArticle(@PathVariable int article) {
+    Detail getDetailByArticle(@PathVariable String article) {
         return detailService.getDetailByArticle(article);
     }
 
@@ -80,7 +78,7 @@ public class MyController {
     }
 
     @GetMapping("/by_article/article={article}")
-    List<Report> getCodesByArticle(@PathVariable int article) {
+    List<Report> getReportsByArticle(@PathVariable String article) {
         return reportService.getReportsByArticle(article);
     }
 
@@ -90,7 +88,7 @@ public class MyController {
     }
 
     @GetMapping("/by_article_and_date/article={article}&date={date}")
-    List<Report> getReportsByArticleAndDate(@PathVariable int article, @PathVariable Date date) {
+    List<Report> getReportsByArticleAndDate(@PathVariable String article, @PathVariable Date date) {
         return reportService.getReportsByArticleAndDate(article, date);
     }
     @GetMapping("/between_dates/date_start={dateStart}&date_end={dateEnd}")
@@ -98,7 +96,7 @@ public class MyController {
         return reportService.getReportsBetweenDates(dateStart, dateEnd);
     }
     @GetMapping("/by_article_and_between_dates/article={article}&date_start={dateStart}&date_end={dateEnd}")
-    List<Report> getReportsByArticleAndBetweenDates(@PathVariable int article, @PathVariable Date dateStart, @PathVariable Date dateEnd) {
+    List<Report> getReportsByArticleAndBetweenDates(@PathVariable String article, @PathVariable Date dateStart, @PathVariable Date dateEnd) {
         return reportService.getReportsByArticleAndBetweenDates(article, dateStart, dateEnd);
     }
 

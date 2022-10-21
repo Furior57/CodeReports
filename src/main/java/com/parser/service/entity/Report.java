@@ -13,7 +13,7 @@ public class Report {
     @Column(name = "report_name")
     String reportName;
     @Column
-    int article;
+    String article;
     @Column
     int status1;
     @Column
@@ -29,7 +29,7 @@ public class Report {
     public Report() {
     }
 
-    public Report(long id, String reportName, int article, int status1, int status2, int status3, int status5, Date date) {
+    public Report(long id, String reportName, String article, int status1, int status2, int status3, int status5, Date date) {
         this.id = id;
         this.reportName = reportName;
         this.article = article;
@@ -41,7 +41,7 @@ public class Report {
     }
 
 
-    public Report(String reportName, int article, int status1, int status2, int status3, int status5, Date date) {
+    public Report(String reportName, String article, int status1, int status2, int status3, int status5, Date date) {
         this.reportName = reportName;
         this.article = article;
         this.status1 = status1;
@@ -68,11 +68,11 @@ public class Report {
         this.reportName = reportName;
     }
 
-    public int getArticle() {
+    public String getArticle() {
         return article;
     }
 
-    public void setArticle(int article) {
+    public void setArticle(String article) {
         this.article = article;
     }
 

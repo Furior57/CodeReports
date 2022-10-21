@@ -2,6 +2,7 @@ package com.parser.json_handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.parser.exceptions.ExceptionsHandler;
+import com.parser.service.entity.Report;
 import com.parser.service.pojo.DataMatrix;
 import com.parser.service.pojo.DataMatrixObject;
 import com.parser.service.repositories.DetailRepository;
@@ -11,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +39,10 @@ public class ReportHandler {
                 for (File file : fileList) {
                     try {
                         DataMatrixObject dataMatrixCodes = getDataMatrixCodes(file);
-                        for (DataMatrix d : dataMatrixCodes.dataMatrixs) {
+                        for (DataMatrix d : dataMatrixCodes.getDataMatrixs()) {
+                            Report report = new Report();
+                            String[] str = d.getReportName().split("_");
+                            report.setReportName(str[1]);
 
                         }
                     } catch (Exception e) {
@@ -46,10 +52,6 @@ public class ReportHandler {
             }
 
         }
-
-
-
-
 
 
     }

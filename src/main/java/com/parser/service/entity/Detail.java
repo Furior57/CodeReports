@@ -12,7 +12,7 @@ public class Detail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
     @Column
-    int article;
+    String article;
     @Column
     String gtin;
     @Column(name = "product_name")
@@ -20,14 +20,14 @@ public class Detail {
     @Column
     String tnved;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "article")
     List<Report> reports;
 
     public Detail() {
     }
 
-    public Detail(int id, int article, String gtin, String productName, String tnved) {
+    public Detail(int id, String article, String gtin, String productName, String tnved) {
         this.id = id;
         this.article = article;
         this.gtin = gtin;
@@ -35,7 +35,7 @@ public class Detail {
         this.tnved = tnved;
     }
 
-    public Detail(int article, String gtin, String productName, String tnved) {
+    public Detail(String article, String gtin, String productName, String tnved) {
         this.article = article;
         this.gtin = gtin;
         this.productName = productName;
@@ -51,11 +51,11 @@ public class Detail {
     }
 
 
-    public int getArticle() {
+    public String getArticle() {
         return article;
     }
 
-    public void setArticle(int article) {
+    public void setArticle(String article) {
         this.article = article;
     }
 
@@ -76,13 +76,13 @@ public class Detail {
     }
 
 
-//    public List<Report> getReports() {
-//        return reports;
-//    }
-//
-//    public void setReports(List<Report> reports) {
-//        this.reports = reports;
-//    }
+    public List<Report> getReports() {
+        return reports;
+    }
+
+    public void setReports(List<Report> reports) {
+        this.reports = reports;
+    }
 
     public String getTnved() {
         return tnved;

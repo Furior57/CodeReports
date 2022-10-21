@@ -50,13 +50,12 @@ public class DetailServiceImpl implements DetailService {
     }
 
     @Override
-    public Detail getDetailByArticle(int article) {
+    public Detail getDetailByArticle(String article) {
         return repository.findByArticle(article);
     }
 
     @Override
-    @Transactional
-    public HttpStatus parseAndSaveArticle() throws Exception{
+    public void parseAndSaveArticle() throws Exception{
         logger.info("Запуск обновления номенклатурных позиций.");
         File file = new File("D:\\1\\articles.xls");
         try (HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(file))) {
@@ -64,27 +63,28 @@ public class DetailServiceImpl implements DetailService {
             Iterator<Row> rowIterator = sheet.rowIterator();
             while (rowIterator.hasNext()) {
                 Iterator<Cell> cellIterator = rowIterator.next().cellIterator();
-                List<Integer> integerList = new ArrayList<>();
                 List<String> stringList = new ArrayList<>();
                 while (cellIterator.hasNext()) {
                     HSSFCell cell = (HSSFCell) cellIterator.next();
-                    switch (cell.getCellType()) {
+                    CellType cellType = cell.getCellType();
+                    switch (cellType) {
                         case NUMERIC:
-                            double a = cell.getNumericCellValue();
-                            int b = (int) a;
-                            integerList.add(b);
+                            int b = (int) cell.getNumericCellValue();
+                            stringList.add(String.valueOf(b));
                             break;
                         case STRING:
                             stringList.add(cell.getStringCellValue());
-                        default:
                             break;
+                        default: break;
                     }
+
+
                 }
                 Detail detail = new Detail();
-                detail.setArticle(integerList.get(0));
-                detail.setGtin(stringList.get(0));
-                detail.setTnved(stringList.get(1));
-                detail.setProductName(stringList.get(2));
+                detail.setArticle(stringList.get(0));
+                detail.setGtin(stringList.get(1));
+                detail.setTnved(stringList.get(2));
+                detail.setProductName(stringList.get(3));
                 if (repository.findByArticle(detail.getArticle()) == null) {
                     repository.save(detail);
                 }
@@ -97,9 +97,11 @@ public class DetailServiceImpl implements DetailService {
             if (e.getClass() == IndexOutOfBoundsException.class) {
                 logger.error("Файл \"" + file.getAbsoluteFile() + "\" содержит неверный формат данных");
                 throw new InvalidFormatFileException("Файл \"" + file.getAbsoluteFile() + "\" содержит неверный формат данных");
+            }else {
+                logger.error("Неизвестная ошибка.");
+                e.printStackTrace();
             }
         }
         logger.info("Обновление номенклатурных позиций успешно завершено.");
-        return HttpStatus.OK;
     }
 }

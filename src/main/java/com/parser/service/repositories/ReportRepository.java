@@ -12,13 +12,13 @@ import java.util.List;
 public interface ReportRepository extends JpaRepository<Report, Long> {
 
 
-    List<Report> findAllByArticle(int article);
+    List<Report> findAllByArticle(String article);
 
     List<Report> findAllByDate(Date date);
 
-    List<Report> findAllByArticleAndDate(int article, Date date);
+    List<Report> findAllByArticleAndDate(String article, Date date);
 
     List<Report> findAllByDateBetween(Date startDate, Date endDate);
 
-    List<Report> findAllByArticleAndDateBetween(int article, Date startDate, Date endDate);
+    List<Report> findAllByArticleAndDateBetween(String article, Date startDate, Date endDate);
 }

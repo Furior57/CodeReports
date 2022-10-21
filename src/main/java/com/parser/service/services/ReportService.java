@@ -17,13 +17,13 @@ public interface ReportService {
 
     void parseAndSaveReports();
 
-    List<Report> getReportsByArticle(int article);
+    List<Report> getReportsByArticle(String article);
 
     List<Report> getReportsByDate(Date date);
 
-    List<Report> getReportsByArticleAndDate(int article, Date date);
+    List<Report> getReportsByArticleAndDate(String article, Date date);
 
     List<Report> getReportsBetweenDates(Date startDate, Date endDate);
 
-    List<Report> getReportsByArticleAndBetweenDates(int article, Date startDate, Date endDate);
+    List<Report> getReportsByArticleAndBetweenDates(String article, Date startDate, Date endDate);
 }
