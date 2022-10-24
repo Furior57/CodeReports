@@ -1,6 +1,7 @@
 package com.parser.service.services_impl;
 
 import com.parser.json_handler.ReportHandler;
+import com.parser.service.repositories.DetailRepository;
 import com.parser.service.services.ReportService;
 import com.parser.service.entity.Report;
 import com.parser.service.repositories.ReportRepository;
@@ -16,33 +17,35 @@ import java.util.Optional;
 @Transactional
 public class ReportServiceImpl implements ReportService {
     @Autowired
-    ReportRepository repository;
+    ReportRepository reportRepository;
+    @Autowired
+    DetailRepository detailRepository;
 
     @Override
     public List<Report> getAllReports() {
-        return repository.findAll();
+        return reportRepository.findAll();
     }
 
     @Override
     public void saveOrUpdateReport(Report report) {
-        repository.save(report);
+        reportRepository.save(report);
     }
 
     @Override
     public Optional<Report> getReport(long id) {
-        return repository.findById(id);
+        return reportRepository.findById(id);
     }
 
     @Override
     public void deleteReport(long id) {
-        repository.deleteById(id);
+        reportRepository.deleteById(id);
     }
 
     @Override
     public void parseAndSaveReports() {
         ReportHandler handler = new ReportHandler();
         try {
-            handler.reportHandle();
+            handler.reportHandle(reportRepository, detailRepository);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -50,22 +53,22 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public List<Report> getReportsByArticle(String article) {
-        return repository.findAllByArticle(article);
+        return reportRepository.findAllByArticle(article);
     }
 
     @Override
     public List<Report> getReportsByDate(Date date) {
-        return repository.findAllByDate(date);
+        return reportRepository.findAllByDate(date);
     }
 
     @Override
     public List<Report> getReportsByArticleAndDate(String article, Date date) {
-        return repository.findAllByArticleAndDate(article, date);
+        return reportRepository.findAllByArticleAndDate(article, date);
     }
 
     @Override
     public List<Report> getReportsBetweenDates(Date startDate, Date endDate) {
-        return repository.findAllByDateBetween(startDate, endDate);
+        return reportRepository.findAllByDateBetween(startDate, endDate);
     }
 
     @Override

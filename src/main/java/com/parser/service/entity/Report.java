@@ -9,27 +9,30 @@ public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    long id;
+    int id;
     @Column(name = "report_name")
     String reportName;
     @Column
     String article;
-    @Column
+    @Column(name = "status_1")
     int status1;
-    @Column
+    @Column(name = "status_2")
     int status2;
-    @Column
+    @Column(name = "status_3")
     int status3;
-    @Column
+    @Column(name = "status_5")
     int status5;
     @Column
     Date date;
+    @Column(name = "full_name")
+    String fullReportName;
 
 
     public Report() {
     }
 
-    public Report(long id, String reportName, String article, int status1, int status2, int status3, int status5, Date date) {
+    public Report(int id, String reportName, String article, int status1,
+                  int status2, int status3, int status5, Date date, String fullReportName) {
         this.id = id;
         this.reportName = reportName;
         this.article = article;
@@ -38,6 +41,7 @@ public class Report {
         this.status3 = status3;
         this.status5 = status5;
         this.date = date;
+        this.fullReportName = fullReportName;
     }
 
 
@@ -51,11 +55,11 @@ public class Report {
         this.date = date;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -114,6 +118,14 @@ public class Report {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getFullReportName() {
+        return fullReportName;
+    }
+
+    public void setFullReportName(String fullReportName) {
+        this.fullReportName = fullReportName;
     }
 
     @Override
