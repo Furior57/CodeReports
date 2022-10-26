@@ -6,6 +6,8 @@ import com.parser.service.services.ReportService;
 import com.parser.service.entity.Report;
 import com.parser.service.repositories.ReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,7 @@ public class ReportServiceImpl implements ReportService {
     ReportRepository reportRepository;
     @Autowired
     DetailRepository detailRepository;
+
 
     @Override
     public List<Report> getAllReports() {
@@ -43,6 +46,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public void parseAndSaveReports() {
+
         ReportHandler handler = new ReportHandler();
         try {
             handler.reportHandle(reportRepository, detailRepository);
@@ -73,6 +77,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public List<Report> getReportsByArticleAndBetweenDates(String article, Date startDate, Date endDate) {
-        return getReportsByArticleAndBetweenDates(article, startDate, endDate);
+        return reportRepository.findAllByArticleAndDateBetween(article, startDate, endDate);
     }
+
 }

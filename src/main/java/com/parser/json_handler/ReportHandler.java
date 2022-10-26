@@ -15,30 +15,28 @@ import java.io.FileNotFoundException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ReportHandler {
-
     private final Logger logger = LoggerFactory.getLogger(ReportHandler.class);
-
 
     DataMatrixObject codes = null;
 
     public void reportHandle(ReportRepository reportRepository, DetailRepository detailRepository) throws Exception {
 
-
         List<File> folderList = new ArrayList<>();
-
-        folderList.add(new File("D:\\1\\report"));
+        folderList.add(new File("/mnt/pet/С производства/Загружено автоматически"));
+        folderList.add(new File("/mnt/polyak/С производства/Загружено автоматически"));
+        folderList.add(new File("/mnt/ispanec/С производства/Загружено автоматически"));
+        folderList.add(new File("/mnt/tuba/С производства/Загружено автоматически"));
+        folderList.add(new File("/mnt/banka/С производства/Загружено автоматически"));
         logger.info("Начато обновление базы данных.");
         for (File folder : folderList) {
             File[] fileList = folder.listFiles();
             if (fileList != null) {
                 for (File file : fileList) {
-                    String fileName = file.getName().split("\\\\")[file.getName().split("\\\\").length - 1];
+                    String fileName = file.getName().split("/")[file.getName().split("/").length - 1];
                     if (reportRepository.findByFullReportName(fileName).size() != 0) {
-                        System.out.println(fileName + " уже был");
                         continue;
                     }
                     System.out.println("Обрабатываем " + file.getName() + "\r");
