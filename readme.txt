@@ -34,7 +34,7 @@
     mkdir /mnt/ispanec
     mkdir /mnt/tuba
     mkdir /mnt/banka
- Даем права доступа к папкам обычному пользователю:
+ Меняем владельца папки на нашего пользователя, во избежание проблем с доступом:
     chown shad /mnt/share - вместо share ввести название каталога для точки монтирования
 
  Создание файла для хранения логина и пароля подключения к сетевым каталогам:
@@ -60,15 +60,4 @@
 
 2. Подготовка к установке программы.
 
- Создание структуры каталогов:
-   mkdir /var/apps
-   mkdir /var/apps/parser/
-   mkdir /var/apps/parser/logs
-   mkdir /var/apps/mysql/
-   mkdir /var/apps/mysql/logs
 
- Создание каталога для сборки образа с программой:
-    mkdir /var/apps/build
-
- Создание Dockerfile:
-    vim /var/apps/build/Dockerfile

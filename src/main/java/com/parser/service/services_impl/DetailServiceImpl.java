@@ -57,7 +57,7 @@ public class DetailServiceImpl implements DetailService {
     @Override
     public void parseAndSaveArticle() throws Exception{
         logger.info("Запуск обновления номенклатурных позиций.");
-        File file = new File("D:\\1\\articles.xls");
+        File file = new File("/parser/articles.xls");
         try (HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(file))) {
             HSSFSheet sheet = workbook.getSheetAt(0);
             Iterator<Row> rowIterator = sheet.rowIterator();
